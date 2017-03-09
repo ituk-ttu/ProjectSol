@@ -8,7 +8,7 @@ public class Constansts {
     public static final String TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String BASE_URL = "https://api.planetos.com/v1/datasets/noaa_gfs_pgrb2_global_forecast_recompute_0.25degree/point?origin=dataset-details";
     @Value("api-key")
-    public String API_KEY;
+    public static String API_KEY;
     public static final String HEADER_ACCEPT = "Accept";
     public static final String HEADER_VALUE_APPLICATION_JSON = "application/json charset=utf-8";
 
