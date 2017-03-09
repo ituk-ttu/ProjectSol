@@ -25,7 +25,7 @@ public class PlanetOSRequestHandler {
     @Autowired
     GeneralConfiguration generalConfiguration;
 
-    public synchronized String performRequest(String latitude, String longitude) {
+    public synchronized ResponseData performRequest(String latitude, String longitude) {
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet(createProperLink(latitude, longitude));
             request.addHeader(Constansts.HEADER_ACCEPT, Constansts.HEADER_VALUE_APPLICATION_JSON);
@@ -33,9 +33,7 @@ public class PlanetOSRequestHandler {
             response.getEntity();
             Gson gson = new Gson();
             String json = EntityUtils.toString(response.getEntity());
-            ResponseData responseData = gson.fromJson(json, ResponseData.class);
-            System.out.println(responseData.getEntries());
-//            System.out.println(json);
+            return gson.fromJson(json, ResponseData.class);
         } catch (IOException e) {
             System.err.println("error in IO");
         }
@@ -50,7 +48,7 @@ public class PlanetOSRequestHandler {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constansts.BASE_URL);
         stringBuilder.append("&lat=").append(latitude);
-        stringBuilder.append("&apikey=").append(Constansts.API_KEY);
+        stringBuilder.append("&apikey=").append(generalConfiguration.getApiKey());
         stringBuilder.append("&lon=").append(longitude);
         stringBuilder.append("&var=").append(Constansts.HOUR_AVERAGE_MODE);
         String[] dates = getDates();

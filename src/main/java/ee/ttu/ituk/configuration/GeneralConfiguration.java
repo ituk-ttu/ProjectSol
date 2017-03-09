@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class GeneralConfiguration {
 
-    @Value("api-key")
+    @Value("${api-key}")
     String apiKey;
 
-    @Value("commonURL")
+    @Value("{commonURL}")
     String commonUrl;
 
     public String getApiKey() {
