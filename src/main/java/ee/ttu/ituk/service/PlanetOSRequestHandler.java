@@ -1,7 +1,9 @@
 package ee.ttu.ituk.service;
 
+import com.google.gson.Gson;
 import ee.ttu.ituk.configuration.Constansts;
 import ee.ttu.ituk.configuration.GeneralConfiguration;
+import ee.ttu.ituk.data.ResponseData;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -29,8 +31,11 @@ public class PlanetOSRequestHandler {
             request.addHeader(Constansts.HEADER_ACCEPT, Constansts.HEADER_VALUE_APPLICATION_JSON);
             HttpResponse response = httpClient.execute(request);
             response.getEntity();
+            Gson gson = new Gson();
             String json = EntityUtils.toString(response.getEntity());
-            System.out.println(json);
+            ResponseData responseData = gson.fromJson(json, ResponseData.class);
+            System.out.println(responseData.getEntries());
+//            System.out.println(json);
         } catch (IOException e) {
             System.err.println("error in IO");
         }
