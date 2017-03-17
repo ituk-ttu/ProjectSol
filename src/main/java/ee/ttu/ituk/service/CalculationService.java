@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class CalculationService {
 
+    private static BigDecimal sum = BigDecimal.ZERO;
+
     private void setAngles(Axes axes) {
 
         DateFormat format = new SimpleDateFormat(Constansts.TIME_FORMAT, Locale.ENGLISH);
@@ -52,16 +54,21 @@ public class CalculationService {
         BigDecimal solarPower = dataEntry.getData().getDswrfsfc_1_Hour_Average();
         if (!solarPower.equals(BigDecimal.ZERO)) {
             setAngles(axes);
-            double altitude = axes.getAngle().subtract(BigDecimal.valueOf(90.0)).doubleValue();
-            double solarSurfaceAngle = angleOfCompass.add(axes.getAzimuth()).doubleValue();
-            BigDecimal power = BigDecimal.valueOf(solarPower.doubleValue()
-                    * ((Math.sin(altitude) * Math.sin(inclination.doubleValue()))
-                        + Math.cos(altitude) * Math.cos(inclination.doubleValue()) * Math.cos(solarSurfaceAngle)));
+            double altitude = Math.toRadians(axes.getAngle().subtract(BigDecimal.valueOf(90.0)).doubleValue());
+            double solarSurfaceAngle = Math.toRadians(angleOfCompass.add(axes.getAzimuth()).doubleValue());
+            BigDecimal power = BigDecimal.valueOf(Math.abs(solarPower.doubleValue()
+                    * ((Math.sin(altitude) * Math.sin(Math.toRadians(inclination.doubleValue())))
+                        + Math.cos(altitude) * Math.cos(Math.toRadians(inclination.doubleValue())) * Math.cos(solarSurfaceAngle))));
+            sum = sum.add(power);
+            System.out.println(axes.getTime() + " | " + axes.getAngle() + " | " + axes.getAzimuth());
+            System.out.println(sum.toString());
             return power;
         } else {
             return BigDecimal.ZERO;
         }
     }
 
-
+    private double angleToRadian(double angle) {
+        return Math.toRadians(angle);
+    }
 }
