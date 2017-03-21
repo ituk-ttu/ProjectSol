@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 public class ProjectSolApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProjectSolApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProjectSolApplication.class, args);
+    }
 }
