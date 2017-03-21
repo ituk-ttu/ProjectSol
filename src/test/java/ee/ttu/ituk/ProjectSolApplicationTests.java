@@ -3,6 +3,7 @@ package ee.ttu.ituk;
 import ee.ttu.ituk.data.ResponseData;
 import ee.ttu.ituk.service.CalculationService;
 import ee.ttu.ituk.service.PlanetOSRequestHandler;
+import ee.ttu.ituk.service.ValidationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,6 @@ public class ProjectSolApplicationTests {
 	public void testPlanetOSRequest() {
 		ResponseData responseData = planetOSRequestHandler.performRequest("45","45");
 		assertTrue(responseData.getEntries().size() > 0);
-	}
+    }
 
 }
