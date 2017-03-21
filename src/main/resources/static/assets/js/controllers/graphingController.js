@@ -1,3 +1,7 @@
 app.controller("graphingController", ["$q", "$scope", function ($q, $scope) {
-    $scope.hw = "Hello, world!";
+    $scope.loading = false;
+
+    $scope.calculate = function (panelSettings) {
+        $scope.loading = true;
+    }
 }]);
