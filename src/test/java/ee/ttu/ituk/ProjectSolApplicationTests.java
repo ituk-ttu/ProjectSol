@@ -23,7 +23,7 @@ public class ProjectSolApplicationTests {
 	@Test
 	public void testPlanetOSRequest() {
 		ResponseData responseData = planetOSRequestHandler.performRequest("45","45");
-		assertTrue()
+		assertTrue(responseData.getEntries().size() > 0);
 	}
 
 }

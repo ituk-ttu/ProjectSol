@@ -1,6 +1,6 @@
 package ee.ttu.ituk.service;
 
-import ee.ttu.ituk.configuration.Constansts;
+import ee.ttu.ituk.configuration.Constants;
 import ee.ttu.ituk.data.Axes;
 import ee.ttu.ituk.data.DataEntry;
 import ee.ttu.ituk.data.GraphData;
@@ -21,10 +21,14 @@ import java.util.Locale;
 @Service
 public class CalculationService {
 
-
+    /**
+     * Set all needed angles for calculations.
+     * AzimuthZenithAngle
+     * @param axes
+     */
     private void setAngles(Axes axes) {
 
-        DateFormat format = new SimpleDateFormat(Constansts.TIME_FORMAT, Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat(Constants.TIME_FORMAT, Locale.ENGLISH);
         Date date = new Date();
         try {
             date = format.parse(axes.getTime());
@@ -34,6 +38,7 @@ public class CalculationService {
         GregorianCalendar dateTime = new GregorianCalendar();
 
         dateTime.setTime(date);
+
         AzimuthZenithAngle position = Grena3.calculateSolarPosition(
                 dateTime,
                 Double.parseDouble(axes.getLatitude()), // latitude (degrees)

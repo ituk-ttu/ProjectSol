@@ -1,7 +1,7 @@
 package ee.ttu.ituk.service;
 
 import com.google.gson.Gson;
-import ee.ttu.ituk.configuration.Constansts;
+import ee.ttu.ituk.configuration.Constants;
 import ee.ttu.ituk.configuration.GeneralConfiguration;
 import ee.ttu.ituk.data.ResponseData;
 import org.apache.http.HttpResponse;
@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 
 @Service
 public class PlanetOSRequestHandler {
@@ -28,7 +26,7 @@ public class PlanetOSRequestHandler {
     public synchronized ResponseData performRequest(String latitude, String longitude) {
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet(createProperLink(latitude, longitude));
-            request.addHeader(Constansts.HEADER_ACCEPT, Constansts.HEADER_VALUE_APPLICATION_JSON);
+            request.addHeader(Constants.HEADER_ACCEPT, Constants.HEADER_VALUE_APPLICATION_JSON);
             HttpResponse response = httpClient.execute(request);
             response.getEntity();
             Gson gson = new Gson();
@@ -46,22 +44,22 @@ public class PlanetOSRequestHandler {
                 "&var=dswrfsfc_1_Hour_Average&start=2017-03-10T14:30:00Z" +
                 "&end=2017-03-15T15:30:00Z&count=120";
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Constansts.BASE_URL);
+        stringBuilder.append(Constants.BASE_URL);
         stringBuilder.append("&lat=").append(latitude);
         stringBuilder.append("&apikey=").append(generalConfiguration.getApiKey());
         stringBuilder.append("&lon=").append(longitude);
-        stringBuilder.append("&var=").append(Constansts.HOUR_AVERAGE_MODE);
+        stringBuilder.append("&var=").append(Constants.HOUR_AVERAGE_MODE);
         String[] dates = getDates();
         stringBuilder.append("&start=").append(dates[0]);
         stringBuilder.append("&end=").append(dates[1]);
-        stringBuilder.append("&count=").append(Constansts.COUNT);
+        stringBuilder.append("&count=").append(Constants.COUNT);
         return stringBuilder.toString();
     }
 
     String[] getDates() {
         String[] dates = new String[2];
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constansts.TIME_FORMAT);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(Constansts.TIME_FORMAT);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.TIME_FORMAT);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
         LocalDateTime now = LocalDateTime.now();
         dates[0] = dtf.format(now);
         LocalDateTime fiveDaysLater = now.plusDays((long) 5);

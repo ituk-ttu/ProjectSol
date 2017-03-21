@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Constansts {
+public class Constants {
     public static final String HOUR_AVERAGE_MODE = "dswrfsfc_1_Hour_Average";
     public static final String COUNT = "120";
     public static final String TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";

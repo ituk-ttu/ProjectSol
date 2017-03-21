@@ -1,4 +1,4 @@
-package ee.ttu.ituk.web;
+package ee.ttu.ituk.controller;
 
 import ee.ttu.ituk.data.GraphData;
 import ee.ttu.ituk.data.ResponseData;
