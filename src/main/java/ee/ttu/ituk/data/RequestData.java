@@ -3,10 +3,10 @@ package ee.ttu.ituk.data;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class RequestData {
-    String inclination;
-    String angleRelativeToMedians;
-    String longitude;
-    String latitude;
+    private String inclination;
+    private String angleRelativeToMedians;
+    private String longitude;
+    private String latitude;
 
     public String getInclination() {
         return inclination;

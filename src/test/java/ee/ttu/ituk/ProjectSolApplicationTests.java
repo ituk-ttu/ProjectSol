@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static junit.framework.TestCase.assertTrue;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class ProjectSolApplicationTests {
 
 	@Autowired
