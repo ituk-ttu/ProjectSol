@@ -12,8 +12,8 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="assets/js/app.js"></script>
-    <script src="assets/js/controllers/graphingController.js"></script>
     <script src="assets/js/services/wattageService.js"></script>
+    <script src="assets/js/controllers/graphingController.js"></script>
 </head>
 <body>
 <div class="app-container" ng-controller="graphingController">
@@ -30,19 +30,19 @@
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label for="groundAngle" class="control-label col-xs-4">Angle relative to the ground</label>
+                            <label for="inclination" class="control-label col-xs-4">Angle relative to the ground</label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control input-lg" id="groundAngle" ng-disabled="loading"
-                                       placeholder="Angle" ng-model="panelSettings.groundAngle">
+                                <input type="text" class="form-control input-lg" id="inclination" ng-disabled="loading"
+                                       placeholder="Angle" ng-model="panelSettings.inclination">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="meridianAngle" class="control-label col-xs-4">
+                            <label for="angleRelativeToMedians" class="control-label col-xs-4">
                                 Angle relative to the medians
                             </label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control input-lg" id="meridianAngle"
-                                       ng-disabled="loading" placeholder="Angle" ng-model="panelSettings.meridianAngle">
+                                <input type="text" class="form-control input-lg" id="angleRelativeToMedians"
+                                       ng-disabled="loading" placeholder="Angle" ng-model="panelSettings.angleRelativeToMedians">
                             </div>
                         </div>
                         <div class="form-group">
@@ -51,7 +51,7 @@
                             </label>
                             <div class="col-xs-8">
                                 <input type="text" class="form-control input-lg" id="lat" ng-disabled="loading"
-                                       placeholder="Latitude" ng-model="panelSettings.lat">
+                                       placeholder="Latitude" ng-model="panelSettings.latitude">
                             </div>
                         </div>
                         <div class="form-group">
@@ -60,7 +60,7 @@
                             </label>
                             <div class="col-xs-8">
                                 <input type="text" class="form-control input-lg" id="lng" ng-disabled="loading"
-                                       placeholder="Longitude" ng-model="panelSettings.lng">
+                                       placeholder="Longitude" ng-model="panelSettings.longitude">
                             </div>
                         </div>
                         <div class="form-group">
