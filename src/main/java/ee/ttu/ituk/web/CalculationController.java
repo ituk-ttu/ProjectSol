@@ -1,5 +1,6 @@
 package ee.ttu.ituk.web;
 
+import ee.ttu.ituk.data.GraphData;
 import ee.ttu.ituk.data.ResponseData;
 import ee.ttu.ituk.service.CalculationService;
 import ee.ttu.ituk.service.PlanetOSRequestHandler;
@@ -28,12 +29,12 @@ public class CalculationController {
     PlanetOSRequestHandler planetOSRequestHandler;
 
     @RequestMapping(value = "/calculate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public @ResponseBody TreeMap<String, BigDecimal> calculate(@RequestParam(name = "inclination") String inclination,
+    public @ResponseBody GraphData calculate(@RequestParam(name = "inclination") String inclination,
                                               @RequestParam(name = "angleOfCompass") String angleOfCompass,
                                               @RequestParam(name = "longitude") String longitude,
                                               @RequestParam(name = "latitude") String latitude) {
         ResponseData responseData = planetOSRequestHandler.performRequest(latitude, longitude);
-        return new TreeMap<String, BigDecimal>(calculationService.calculateRealSolarPower(responseData, new BigDecimal(inclination), new BigDecimal(angleOfCompass)));
+        return calculationService.calculateRealSolarPower(responseData, new BigDecimal(inclination), new BigDecimal(angleOfCompass));
     }
 
 }
