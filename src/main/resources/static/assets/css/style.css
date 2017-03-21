@@ -3,3 +3,6 @@ html, body, .app-container {
     padding: 0;
     min-height: 100%;
 }
+.parameter-group {
+    padding: 0 10px;
+}

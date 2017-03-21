@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Project Sol</title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.min.js"></script>
     <link href="assets/css/style.css" rel="stylesheet"/>
     <link href="//bootswatch.com/flatly/bootstrap.min.css" rel="stylesheet"/>
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -25,56 +27,62 @@
         </div>
     </div>
     <div class="container">
-        <div class="col-md-6 col-sm-12">
-            <div class="well">
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="inclination" class="control-label col-xs-4">Angle relative to the ground</label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control input-lg" id="inclination" ng-disabled="loading"
-                                       placeholder="Angle" ng-model="panelSettings.inclination">
-                            </div>
+        <div class="well">
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group parameter-group">
+                            <label for="inclination" class="control-label">Angle relative to the ground</label>
+                            <input type="text" class="form-control" id="inclination" ng-disabled="loading"
+                                   placeholder="Angle" ng-model="panelSettings.inclination"
+                                   ng-change="error = false">
                         </div>
-                        <div class="form-group">
-                            <label for="angleRelativeToMedians" class="control-label col-xs-4">
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group parameter-group">
+                            <label for="angleRelativeToMedians" class="control-label">
                                 Angle relative to the medians
                             </label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control input-lg" id="angleRelativeToMedians"
-                                       ng-disabled="loading" placeholder="Angle" ng-model="panelSettings.angleRelativeToMedians">
-                            </div>
+                            <input type="text" class="form-control" id="angleRelativeToMedians"
+                                   ng-disabled="loading" placeholder="Angle"
+                                   ng-model="panelSettings.angleRelativeToMedians" ng-change="error = false">
                         </div>
-                        <div class="form-group">
-                            <label for="lat" class="control-label col-xs-4">
-                                Latitude
-                            </label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control input-lg" id="lat" ng-disabled="loading"
-                                       placeholder="Latitude" ng-model="panelSettings.latitude">
-                            </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group parameter-group">
+                            <label for="lat" class="control-label">Latitude</label>
+                            <input type="text" class="form-control" id="lat" ng-disabled="loading"
+                                   placeholder="Latitude" ng-model="panelSettings.latitude"
+                                   ng-change="error = false">
                         </div>
-                        <div class="form-group">
-                            <label for="lng" class="control-label col-xs-4">
-                                Longitude
-                            </label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control input-lg" id="lng" ng-disabled="loading"
-                                       placeholder="Longitude" ng-model="panelSettings.longitude">
-                            </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group parameter-group">
+                            <label for="lng" class="control-label">Longitude</label>
+                            <input type="text" class="form-control" id="lng" ng-disabled="loading"
+                                   placeholder="Longitude" ng-model="panelSettings.longitude"
+                                   ng-change="error = false">
                         </div>
-                        <div class="form-group">
-                            <div class="col-xs-8 col-xs-offset-4">
-                                <button class="btn btn-success btn-block btn-lg" ng-show="!loading"
-                                        ng-click="calculate(panelSettings)">Check</button>
-                                <button class="btn btn-success btn-block btn-lg disabled" ng-show="loading">
-                                    <i class="fa fa-circle-o-notch fa-spin"></i> Calculating
-                                </button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-danger" ng-show="!loading && error"
+                                ng-click="calculate(panelSettings)">
+                            <i class="fa fa-times"></i> Error
+                        </button>
+                        <button class="btn btn-success" ng-show="!loading && !error"
+                                ng-click="calculate(panelSettings)">Check
+                        </button>
+                        <button class="btn btn-success disabled" ng-show="loading">
+                            <i class="fa fa-circle-o-notch fa-spin"></i> Calculating
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-xs-12" ng-if="hasResult">
+            <canvas id="line" class="chart chart-line wattage-chart" chart-data="wattages" chart-labels="timestamps"
+                    chart-colors="colors">
+            </canvas>
         </div>
     </div>
 </div>
