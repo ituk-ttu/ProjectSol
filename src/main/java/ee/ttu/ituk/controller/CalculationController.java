@@ -5,8 +5,11 @@ import ee.ttu.ituk.data.RequestData;
 import ee.ttu.ituk.data.ResponseData;
 import ee.ttu.ituk.service.CalculationService;
 import ee.ttu.ituk.service.PlanetOSRequestHandler;
+import ee.ttu.ituk.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +26,12 @@ public class CalculationController {
     PlanetOSRequestHandler planetOSRequestHandler;
 
     @RequestMapping(value = "calculate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public @ResponseBody GraphData calculate(@RequestBody RequestData requestData) {
+    public @ResponseBody ResponseEntity<GraphData> calculate(@RequestBody RequestData requestData) {
+        if (ValidationService.validateLongitudeAndLatitude(requestData.getLongitude(), requestData.getLatitude())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         ResponseData responseData = planetOSRequestHandler.performRequest(requestData.getLatitude(), requestData.getLongitude());
-        return calculationService.calculateRealSolarPower(responseData, new BigDecimal(requestData.getInclination()), new BigDecimal(requestData.getAngleRelativeToMedians()));
+        return new ResponseEntity<>(calculationService.calculateRealSolarPower(responseData, new BigDecimal(requestData.getInclination()), new BigDecimal(requestData.getAngleRelativeToMedians())), HttpStatus.OK);
     }
 
 }
