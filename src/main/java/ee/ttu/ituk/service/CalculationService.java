@@ -14,8 +14,9 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 @Service
 public class CalculationService {
@@ -43,27 +44,29 @@ public class CalculationService {
         axes.setAzimuth(BigDecimal.valueOf(position.getAzimuth()));
     }
 
-    public GraphData calculateRealSolarPower(ResponseData responseData, BigDecimal inclination, BigDecimal angleOfCompass) {
+    public GraphData calculateRealSolarPower(ResponseData responseData, BigDecimal inclination, BigDecimal angleRelativeToMedian) {
         GraphData graphData = new GraphData();
         responseData.getEntries()
-                .forEach(entry -> graphData.addTimeAndSolarPower(entry.getAxes().getTime(), performCalculation(entry, inclination, angleOfCompass)));
+                .forEach(entry -> graphData.addTimeAndSolarPower(entry.getAxes().getTime(), performCalculation(entry, inclination, angleRelativeToMedian)));
 
         return graphData;
 //        return responseData.getEntries().stream().collect(Collectors.toMap(dataEntry -> dataEntry.getAxes().getTime(),
-//                dataEntry -> performCalculation(dataEntry, inclination, angleOfCompass)));
+//                dataEntry -> performCalculation(dataEntry, inclination, angleRelativeToMedians)));
 
     }
 
-    private BigDecimal performCalculation(DataEntry dataEntry, BigDecimal inclination, BigDecimal angleOfCompass) {
+    private BigDecimal performCalculation(DataEntry dataEntry, BigDecimal inclination, BigDecimal angleRelativeToMedian) {
         Axes axes = dataEntry.getAxes();
         BigDecimal solarPower = dataEntry.getData().getDswrfsfc_1_Hour_Average();
         if (!solarPower.equals(BigDecimal.ZERO)) {
             setAngles(axes);
             double altitude = Math.toRadians(axes.getAngle().subtract(BigDecimal.valueOf(90.0)).doubleValue());
-            double solarSurfaceAngle = Math.toRadians(angleOfCompass.add(axes.getAzimuth()).doubleValue());
-            return BigDecimal.valueOf(Math.abs(solarPower.doubleValue()
-                    * ((Math.sin(altitude) * Math.sin(Math.toRadians(inclination.doubleValue())))
-                        + Math.cos(altitude) * Math.cos(Math.toRadians(inclination.doubleValue())) * Math.cos(solarSurfaceAngle))));
+            double solarSurfaceAngle = Math.toRadians(angleRelativeToMedian.add(axes.getAzimuth()).doubleValue());
+            return BigDecimal.valueOf(
+                    Math.abs(solarPower.doubleValue()
+                            * ((Math.sin(altitude) * Math.sin(Math.toRadians(inclination.doubleValue())))
+                            + (Math.cos(altitude) * Math.cos(Math.toRadians(inclination.doubleValue()))
+                            * Math.cos(solarSurfaceAngle)))));
         } else {
             return BigDecimal.ZERO;
         }
