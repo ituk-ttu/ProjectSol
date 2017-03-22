@@ -38,7 +38,7 @@
                             <label for="inclination" class="control-label">Angle relative to the ground</label>
                             <input type="text" class="form-control" id="inclination" ng-disabled="loading"
                                    placeholder="Angle" ng-model="panelSettings.inclination"
-                                   ng-change="error = false">
+                                   ng-change="error = false" required>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
@@ -48,7 +48,7 @@
                             </label>
                             <input type="text" class="form-control" id="angleRelativeToMedians"
                                    ng-disabled="loading" placeholder="Angle"
-                                   ng-model="panelSettings.angleRelativeToMedians" ng-change="error = false">
+                                   ng-model="panelSettings.angleRelativeToMedians" ng-change="error = false" required>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
@@ -56,7 +56,7 @@
                             <label for="lat" class="control-label">Latitude</label>
                             <input type="text" class="form-control" id="lat" ng-disabled="loading"
                                    placeholder="Latitude" ng-model="panelSettings.latitude"
-                                   ng-change="error = false">
+                                   ng-change="error = false" required>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
@@ -64,7 +64,7 @@
                             <label for="lng" class="control-label">Longitude</label>
                             <input type="text" class="form-control" id="lng" ng-disabled="loading"
                                    placeholder="Longitude" ng-model="panelSettings.longitude"
-                                   ng-change="error = false">
+                                   ng-change="error = false" required>
                         </div>
                     </div>
                     <div class="form-group text-center">
