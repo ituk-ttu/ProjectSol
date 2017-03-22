@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 
@@ -27,7 +29,7 @@ public class CalculationController {
 
     @RequestMapping(value = "calculate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public @ResponseBody ResponseEntity<GraphData> calculate(@RequestBody RequestData requestData) {
-        if (ValidationService.validateLongitudeAndLatitude(requestData.getLongitude(), requestData.getLatitude())) {
+        if (!ValidationService.validateLongitudeAndLatitude(requestData.getLongitude(), requestData.getLatitude())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         ResponseData responseData = planetOSRequestHandler.performRequest(requestData.getLatitude(),
