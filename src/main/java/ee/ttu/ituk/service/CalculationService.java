@@ -21,6 +21,8 @@ import java.util.Locale;
 @Service
 public class CalculationService {
 
+    private static final BigDecimal RIGHT_ANGLE = BigDecimal.valueOf(90.0);
+
     /**
      * Set all needed angles for calculations.
      * AzimuthZenithAngle
@@ -49,10 +51,12 @@ public class CalculationService {
         axes.setAzimuth(BigDecimal.valueOf(position.getAzimuth()));
     }
 
-    public GraphData calculateRealSolarPower(ResponseData responseData, BigDecimal inclination, BigDecimal angleRelativeToMedian) {
+    public GraphData calculateRealSolarPower(ResponseData responseData, BigDecimal inclination,
+                                             BigDecimal angleRelativeToMedian) {
         GraphData graphData = new GraphData();
         responseData.getEntries()
-                .forEach(entry -> graphData.addTimeAndSolarPower(entry.getAxes().getTime(), performCalculation(entry, inclination, angleRelativeToMedian)));
+                .forEach(entry -> graphData.addTimeAndSolarPower(entry.getAxes().getTime(),
+                        performCalculation(entry, inclination, angleRelativeToMedian)));
 
         return graphData;
 //        return responseData.getEntries().stream().collect(Collectors.toMap(dataEntry -> dataEntry.getAxes().getTime(),
@@ -60,12 +64,13 @@ public class CalculationService {
 
     }
 
-    private BigDecimal performCalculation(DataEntry dataEntry, BigDecimal inclination, BigDecimal angleRelativeToMedian) {
+    private BigDecimal performCalculation(DataEntry dataEntry, BigDecimal inclination,
+                                          BigDecimal angleRelativeToMedian) {
         Axes axes = dataEntry.getAxes();
         BigDecimal solarPower = dataEntry.getData().getDswrfsfc_1_Hour_Average();
         if (!solarPower.equals(BigDecimal.ZERO)) {
             setAngles(axes);
-            double altitude = Math.toRadians(axes.getAngle().subtract(BigDecimal.valueOf(90.0)).doubleValue());
+            double altitude = Math.toRadians(axes.getAngle().subtract(RIGHT_ANGLE).doubleValue());
             double solarSurfaceAngle = Math.toRadians(angleRelativeToMedian.add(axes.getAzimuth()).doubleValue());
             return BigDecimal.valueOf(
                     Math.abs(solarPower.doubleValue()

@@ -20,6 +20,8 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class PlanetOSRequestHandler {
 
+    private static final int DAYS_TO_REQUEST = 5;
+
     @Autowired
     GeneralConfiguration generalConfiguration;
 
@@ -62,7 +64,7 @@ public class PlanetOSRequestHandler {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
         LocalDateTime now = LocalDateTime.now();
         dates[0] = dtf.format(now);
-        LocalDateTime fiveDaysLater = now.plusDays((long) 5);
+        LocalDateTime fiveDaysLater = now.plusDays((long) DAYS_TO_REQUEST);
         dates[1] = dtf.format(fiveDaysLater);
         return dates;
     }

@@ -30,8 +30,11 @@ public class CalculationController {
         if (ValidationService.validateLongitudeAndLatitude(requestData.getLongitude(), requestData.getLatitude())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        ResponseData responseData = planetOSRequestHandler.performRequest(requestData.getLatitude(), requestData.getLongitude());
-        return new ResponseEntity<>(calculationService.calculateRealSolarPower(responseData, new BigDecimal(requestData.getInclination()), new BigDecimal(requestData.getAngleRelativeToMedians())), HttpStatus.OK);
+        ResponseData responseData = planetOSRequestHandler.performRequest(requestData.getLatitude(),
+                requestData.getLongitude());
+        return new ResponseEntity<>(calculationService.calculateRealSolarPower(responseData,
+                new BigDecimal(requestData.getInclination()), new BigDecimal(requestData.getAngleRelativeToMedians())),
+                HttpStatus.OK);
     }
 
 }
